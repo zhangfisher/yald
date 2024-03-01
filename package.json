@@ -24,11 +24,6 @@
     "ci": "tsc && yarn test",
     "lint": "tslint -p ."
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yald check && pretty-quick --staged"
-    }
-  },
   "dependencies": {
     "chalk": "^4.1.0",
     "detect-indent": "^6.0.0",
