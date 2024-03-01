@@ -16,13 +16,12 @@
   },
   "main": "dist/yald.js",
   "scripts": {
-    "build": "tsup",
-    "clean": "ts-clean-built --old && trash  **/*.log",
-    "prepublishOnly": "yarn clean && tsc && yarn test",
-    "test": "tsc && mocha test && yarn lint",
-    "test-dev": "ts-node-dev -T --respawn node_modules/mocha/bin/mocha test/index.ts",
-    "ci": "tsc && yarn test",
-    "lint": "tslint -p ."
+    "build": "tsup"
+  },
+  "husky": {
+    "hooks": {
+      
+    }
   },
   "dependencies": {
     "chalk": "^4.1.0",
