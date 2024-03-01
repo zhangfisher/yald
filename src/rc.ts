@@ -10,7 +10,7 @@ const validFlags = [
   'files',
 ]
 
-const fileName = '.yalcrc'
+const fileName = '.yaldrc'
 
 const readFile = (): Record<string, string | boolean> | null => {
   if (fs.existsSync(fileName)) {

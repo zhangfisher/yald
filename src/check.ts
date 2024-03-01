@@ -19,7 +19,7 @@ export function checkManifest(options: CheckOptions) {
   const findLocalDepsInManifest = (manifestPath: string) => {
     const pkg = fs.readJSONSync(manifestPath) as PackageManifest
     const addresMatch = new RegExp(
-      `^(file|link):(.\\/)?\\${values.yalcPackagesFolder}\\/`
+      `^(file|link):(.\\/)?\\${values.yaldPackagesFolder}\\/`
     )
 
     const findDeps = (depsMap: { [name: string]: string }) =>
@@ -50,7 +50,7 @@ export function checkManifest(options: CheckOptions) {
   const manifestPath = join(options.workingDir, 'package.json')
   const localDeps = findLocalDepsInManifest(manifestPath)
   if (localDeps.length) {
-    console.info('Yalc dependencies found:', localDeps)
+    console.info('Yald dependencies found:', localDeps)
     process.exit(1)
   }
 }

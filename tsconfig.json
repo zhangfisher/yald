@@ -11,8 +11,9 @@
     "noImplicitThis": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "allowJs": false,
-    "newLine": "LF"
+    "allowJs": true,
+    "newLine": "LF",
+    "outDir": "./dist"
   },
   "formatCodeOptions": {
     "indentSize": 2,

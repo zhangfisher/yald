@@ -91,16 +91,16 @@ export const addPackages = async (
         !!localPkg.workspaces ||
         (pnpmWorkspace = checkPnpmWorkspace(workingDir))
 
-  runPmScript('preyalc')
+  runPmScript('preyald')
 
   const addedInstallsP = packages.map(async (packageName) => {
-    runPmScript('preyalc.' + packageName)
+    runPmScript('preyald.' + packageName)
     const { name, version = '' } = parsePackageName(packageName)
 
     if (!name) {
       console.warn('Could not parse package name', packageName)
     }
-    const destYalcCopyDir = join(workingDir, values.yalcPackagesFolder, name)
+    const destYaldCopyDir = join(workingDir, values.yaldPackagesFolder, name)
 
     if (!options.restore) {
       const storedPackagePath = getPackageStoreDir(name)
@@ -122,19 +122,19 @@ export const addPackages = async (
         return null
       }
 
-      await copyDirSafe(storedPackageDir, destYalcCopyDir, !options.replace)
+      await copyDirSafe(storedPackageDir, destYaldCopyDir, !options.replace)
     } else {
-      console.log(`Restoring package \`${packageName}\` from .yalc directory`)
-      if (!fs.existsSync(destYalcCopyDir)) {
+      console.log(`Restoring package \`${packageName}\` from .yald directory`)
+      if (!fs.existsSync(destYaldCopyDir)) {
         console.warn(
-          `Could not find package \`${packageName}\` ` + destYalcCopyDir,
+          `Could not find package \`${packageName}\` ` + destYaldCopyDir,
           ', skipping.'
         )
         return null
       }
     }
 
-    const pkg = readPackageManifest(destYalcCopyDir)
+    const pkg = readPackageManifest(destYaldCopyDir)
     if (!pkg) {
       return null
     }
@@ -157,7 +157,7 @@ export const addPackages = async (
       }
       console.log(
         `${pkg.name}@${pkg.version} added to ${join(
-          values.yalcPackagesFolder,
+          values.yaldPackagesFolder,
           name
         )} purely`
       )
@@ -169,16 +169,16 @@ export const addPackages = async (
       }
 
       if (options.link || options.linkDep) {
-        ensureSymlinkSync(destYalcCopyDir, destModulesDir, 'junction')
+        ensureSymlinkSync(destYaldCopyDir, destModulesDir, 'junction')
       } else {
-        await copyDirSafe(destYalcCopyDir, destModulesDir, !options.replace)
+        await copyDirSafe(destYaldCopyDir, destModulesDir, !options.replace)
       }
 
       if (!options.link) {
         const protocol = options.linkDep ? 'link:' : 'file:'
         const localAddress = options.workspace
           ? 'workspace:*'
-          : protocol + values.yalcPackagesFolder + '/' + pkg.name
+          : protocol + values.yaldPackagesFolder + '/' + pkg.name
 
         const dependencies = localPkg.dependencies || {}
         const devDependencies = localPkg.devDependencies || {}
@@ -214,11 +214,11 @@ export const addPackages = async (
       if (pkg.bin && (options.link || options.linkDep)) {
         const binDir = join(workingDir, 'node_modules', '.bin')
         const addBinScript = (src: string, dest: string) => {
-          const srcPath = join(destYalcCopyDir, src)
+          const srcPath = join(destYaldCopyDir, src)
           const destPath = join(binDir, dest)
           console.log(
             'Linking bin script:',
-            relative(workingDir, destYalcCopyDir),
+            relative(workingDir, destYaldCopyDir),
             '->',
             relative(workingDir, destPath)
           )
@@ -247,8 +247,8 @@ export const addPackages = async (
       )
     }
 
-    const signature = readSignatureFile(destYalcCopyDir)
-    runPmScript('postyalc.' + packageName)
+    const signature = readSignatureFile(destYaldCopyDir)
+    runPmScript('postyald.' + packageName)
     return {
       signature,
       name,
@@ -281,7 +281,7 @@ export const addPackages = async (
     { workingDir: options.workingDir }
   )
 
-  runPmScript('postyalc')
+  runPmScript('postyald')
 
   await addInstallations(addedInstalls)
   if (options.update) {

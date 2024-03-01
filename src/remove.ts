@@ -21,9 +21,9 @@ export interface RemovePackagesOptions {
   workingDir: string
 }
 
-const isYalcFileAddress = (address: string, name: string) => {
+const isYaldFileAddress = (address: string, name: string) => {
   const regExp = new RegExp(
-    'file|link:' + values.yalcPackagesFolder + '/' + name
+    'file|link:' + values.yaldPackagesFolder + '/' + name
   )
   return regExp.test(address)
 }
@@ -81,7 +81,7 @@ export const removePackages = async (
     if (pkg.devDependencies && pkg.devDependencies[name]) {
       depsWithPackage = pkg.devDependencies
     }
-    if (depsWithPackage && isYalcFileAddress(depsWithPackage[name], name)) {
+    if (depsWithPackage && isYaldFileAddress(depsWithPackage[name], name)) {
       removedPackagedFromManifest.push(name)
       if (lockedPackage && lockedPackage.replaced) {
         depsWithPackage[name] = lockedPackage.replaced
@@ -116,13 +116,13 @@ export const removePackages = async (
     })
   )
 
-  const yalcFolder = join(workingDir, values.yalcPackagesFolder)
+  const yaldFolder = join(workingDir, values.yaldPackagesFolder)
   removedPackagedFromManifest.forEach((name) => {
     fs.removeSync(join(workingDir, 'node_modules', name))
   })
   packagesToRemove.forEach((name) => {
     if (!options.retreat) {
-      fs.removeSync(join(yalcFolder, name))
+      fs.removeSync(join(yaldFolder, name))
     }
   })
 
@@ -131,14 +131,14 @@ export const removePackages = async (
   packagesToRemove
     .filter(isScopedPackage)
     .map((name) => name.split('/')[0])
-    .map((name) => join(yalcFolder, name))
+    .map((name) => join(yaldFolder, name))
     .map(removeIfEmpty)
 
   const isEmptyLockFile = !Object.keys(lockFileConfig.packages).length
   if (isEmptyLockFile && !options.retreat) {
     removeLockfile({ workingDir })
-    if (!removeIfEmpty(yalcFolder)) {
-      console.warn(yalcFolder, 'is not empty, not removing it.')
+    if (!removeIfEmpty(yaldFolder)) {
+      console.warn(yaldFolder, 'is not empty, not removing it.')
     }
   }
 

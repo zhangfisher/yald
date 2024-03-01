@@ -9,7 +9,7 @@ import {
   updatePackages,
   removePackages,
   getStoreMainDir,
-  yalcGlobal,
+  yaldGlobal,
 } from '.'
 
 import { showInstallations, cleanInstallations } from './installations'
@@ -70,9 +70,9 @@ const getPublishOptions = (
 yargs
   .usage(cliCommand + ' [command] [options] [package1 [package2...]]')
   .coerce('store-folder', function (folder: string) {
-    if (!yalcGlobal.yalcStoreMainDir) {
-      yalcGlobal.yalcStoreMainDir = resolve(folder)
-      console.log('Package store folder used:', yalcGlobal.yalcStoreMainDir)
+    if (!yaldGlobal.yaldStoreMainDir) {
+      yaldGlobal.yaldStoreMainDir = resolve(folder)
+      console.log('Package store folder used:', yaldGlobal.yaldStoreMainDir)
     }
   })
   .command({
@@ -81,7 +81,7 @@ yargs
       return yargs.boolean(['version'])
     },
     handler: (argv) => {
-      let msg = 'Use `yalc help` to see available commands.'
+      let msg = 'Use `yald help` to see available commands.'
       if (argv._[0]) {
         msg = 'Unknown command `' + argv._[0] + '`. ' + msg
       } else {
@@ -94,7 +94,7 @@ yargs
   })
   .command({
     command: 'publish',
-    describe: 'Publish package in yalc local repo',
+    describe: 'Publish package in yald local repo',
     builder: () => {
       return yargs
         .default('sig', false)
@@ -112,7 +112,7 @@ yargs
   .command({
     command: 'push',
     describe:
-      'Publish package in yalc local repo and push to all installations',
+      'Publish package in yald local repo and push to all installations',
     builder: () => {
       return yargs
         .default('sig', false)
@@ -151,7 +151,7 @@ yargs
   })
   .command({
     command: 'add',
-    describe: 'Add package from yalc repo to the project',
+    describe: 'Add package from yald repo to the project',
     builder: () => {
       return yargs
         .boolean(['file', 'dev', 'link', ...updateFlags])
@@ -176,7 +176,7 @@ yargs
   })
   .command({
     command: 'link',
-    describe: 'Link package from yalc repo to the project',
+    describe: 'Link package from yald repo to the project',
     builder: () => {
       return yargs.default(rcArgs).help(true)
     },
@@ -190,7 +190,7 @@ yargs
   })
   .command({
     command: 'update',
-    describe: 'Update packages from yalc repo',
+    describe: 'Update packages from yald repo',
     builder: () => {
       return yargs
         .boolean([...updateFlags])
@@ -253,7 +253,7 @@ yargs
   })
   .command({
     command: 'check',
-    describe: 'Check package.json for yalc packages',
+    describe: 'Check package.json for yald packages',
     builder: () => {
       return yargs.boolean(['commit']).usage('check usage here').help(true)
     },
@@ -271,7 +271,7 @@ yargs
   })
   .command({
     command: 'dir',
-    describe: 'Show yalc system directory',
+    describe: 'Show yald system directory',
     handler: () => {
       console.log(getStoreMainDir())
     },

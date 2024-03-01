@@ -6,13 +6,13 @@ import { join } from 'path'
 const userHome = homedir()
 
 export const values = {
-  myNameIs: 'yalc',
-  ignoreFileName: '.yalcignore',
-  myNameIsCapitalized: 'Yalc',
-  lockfileName: 'yalc.lock',
-  yalcPackagesFolder: '.yalc',
-  prescript: 'preyalc',
-  postscript: 'postyalc',
+  myNameIs: 'yald',
+  ignoreFileName: '.yaldignore',
+  myNameIsCapitalized: 'Yald',
+  lockfileName: 'yald.lock',
+  yaldPackagesFolder: '.yald',
+  prescript: 'preyald',
+  postscript: 'postyald',
   installationsFile: 'installations.json',
 }
 
@@ -29,18 +29,18 @@ export { addPackages } from './add'
 export * from './pkg'
 export * from './pm'
 
-export interface YalcGlobal {
-  yalcStoreMainDir: string
+export interface YaldGlobal {
+  yaldStoreMainDir: string
 }
 /* 
   Not using Node.Global because in this case 
   <reference types="mocha" /> is aded in built d.ts file  
 */
-export const yalcGlobal: YalcGlobal = global as any
+export const yaldGlobal: YaldGlobal = global as any
 
 export function getStoreMainDir(): string {
-  if (yalcGlobal.yalcStoreMainDir) {
-    return yalcGlobal.yalcStoreMainDir
+  if (yaldGlobal.yaldStoreMainDir) {
+    return yaldGlobal.yaldStoreMainDir
   }
   if (process.platform === 'win32' && process.env.LOCALAPPDATA) {
     return join(process.env.LOCALAPPDATA, values.myNameIsCapitalized)
@@ -57,7 +57,7 @@ export const getPackageStoreDir = (packageName: string, version = '') =>
 
 export const execLoudOptions = { stdio: 'inherit' } as ExecSyncOptions
 
-const signatureFileName = 'yalc.sig'
+const signatureFileName = 'yald.sig'
 
 export const readSignatureFile = (workingDir: string) => {
   const signatureFilePath = join(workingDir, signatureFileName)

@@ -148,9 +148,9 @@ export const copyPackageToStore = async (options: {
   const ignoreFileContent = readIgnoreFile(workingDir)
 
   const ignoreRule = ignore().add(ignoreFileContent)
-  const npmList: string[] = await (await npmPacklist({ path: workingDir })).map(
-    fixScopedRelativeName
-  )
+  const npmList: string[] = await (
+    await npmPacklist({ path: workingDir })
+  ).map(fixScopedRelativeName)
 
   const filesToCopy = npmList.filter((f) => !ignoreRule.ignores(f))
   if (options.content) {
@@ -206,7 +206,7 @@ export const copyPackageToStore = async (options: {
 
   const pkgToWrite: PackageManifest = {
     ...resolveDeps(devMod ? modPackageDev(pkg) : pkg),
-    yalcSig: signature,
+    yaldSig: signature,
     version: pkg.version + versionPre,
   }
   writePackageManifest(storePackageStoreDir, pkgToWrite)

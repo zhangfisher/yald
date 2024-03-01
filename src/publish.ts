@@ -68,7 +68,7 @@ export const publishPackage = async (options: PublishPackageOptions) => {
     'prepare',
     'prepublishOnly',
     'prepack',
-    'preyalcpublish',
+    'preyaldpublish',
   ]
   preScripts.forEach(runPmScript)
 
@@ -80,7 +80,7 @@ export const publishPackage = async (options: PublishPackageOptions) => {
   }
 
   const postScripts: (keyof PackageScripts)[] = [
-    'postyalcpublish',
+    'postyaldpublish',
     'postpack',
     'publish',
     'postpublish',

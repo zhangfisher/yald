@@ -13,22 +13,23 @@ export type PackageScripts = Partial<{
   prepublishOnly: string
   publish: string
   postpublish: string
-  preyalcpublish: string
-  preyalc: string
-  postyalcpublish: string
-  postyalc: string
+  preyaldpublish: string
+  preyald: string
+  postyaldpublish: string
+  postyald: string
 }>
 
 export interface PackageManifest {
   name: string
   version: string
-  yalcSig?: string
+  yaldSig?: string
   private?: boolean
   bin?: string | { [name: string]: string }
   dependencies?: { [name: string]: string }
   devDependencies?: { [name: string]: string }
   peerDependencies?: { [name: string]: string }
-  yalc: Partial<{
+  publishConfig?: Record<string, any>
+  yald: Partial<{
     sig: boolean
     signature: boolean
     noSig: boolean
@@ -96,6 +97,13 @@ export function writePackageManifest(workingDir: string, pkg: PackageManifest) {
   const indent = pkg.__Indent
   delete pkg.__Indent
   const packagePath = join(workingDir, 'package.json')
+  //
+  if ('publishConfig' in pkg) {
+    // @ts-ignore
+    Object.assign(pkg, pkg.publishConfig)
+    delete pkg.publishConfig
+  }
+
   try {
     fs.writeFileSync(packagePath, JSON.stringify(pkg, null, indent) + '\n')
   } catch (e) {
